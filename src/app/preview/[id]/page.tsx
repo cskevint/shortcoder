@@ -6,6 +6,7 @@ import { Typography, Paper, Skeleton, Box } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import { Content, getContentById } from '@/lib/supabase';
+import { postprocessContent } from '@/lib/contentPostprocess';
 
 export default function PreviewContentPage({ params }: { params: Promise<{ id: string }> }) {
   const { enqueueSnackbar } = useSnackbar();
@@ -49,10 +50,28 @@ export default function PreviewContentPage({ params }: { params: Promise<{ id: s
         {content.title}
       </Typography>
       <Paper sx={{ p: 3, mt: 2 }}>
-        <Box whiteSpace="pre-wrap">
-          {content.content}
-        </Box>
+        <Box
+          whiteSpace="pre-wrap"
+          dangerouslySetInnerHTML={{ __html: postprocessContent(content.content) }}
+        />
       </Paper>
+      <Box display="flex" justifyContent="flex-end" mt={2}>
+        <button
+          type="button"
+          onClick={() => router.push(`/edit/${id}`)}
+          style={{
+            background: '#1976d2',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 4,
+            padding: '8px 24px',
+            fontSize: 16,
+            cursor: 'pointer',
+          }}
+        >
+          Edit
+        </button>
+      </Box>
     </>
   );
 }
