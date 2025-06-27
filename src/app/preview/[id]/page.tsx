@@ -53,7 +53,6 @@ export default function PreviewContentPage({ params }: { params: Promise<{ id: s
       <MUIIconHydrator>
         <Paper sx={{ p: 3, mt: 2 }}>
           <Box
-            whiteSpace="pre-wrap"
             dangerouslySetInnerHTML={{ __html: postprocessContent(content.content) }}
           />
         </Paper>

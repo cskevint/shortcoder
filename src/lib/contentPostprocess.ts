@@ -16,7 +16,7 @@ export function postprocessContent(content: string): string {
   // Handle [blockquote]...[/blockquote]
   content = content.replace(
     /\[blockquote\]([\s\S]*?)\[\/blockquote\]/gi,
-    (_, inner) => `<blockquote style="background:#fff9c4;border-radius:8px;padding:16px;">${inner.trim()}</blockquote>`
+    (_, inner) => `<blockquote style="background:#fff9c4;border-radius:8px;padding:16px;margin-bottom:12px;">${inner.trim()}</blockquote>`
   );
 
   // Handle [collapsible ...attributes]...[/collapsible]
@@ -28,12 +28,12 @@ export function postprocessContent(content: string): string {
       const title = attrs.title || 'Details';
       const idx = collapsibleIndex++;
       return `
-        <div class="collapsible" data-collapsible-idx="${idx}" style="border:1px solid #eee;border-radius:8px;">
-          <div class="collapsible-header" style="display:flex;align-items:center;cursor:pointer;padding:0px 8px 0px 0px;user-select:none;" onclick="(function(e){var b=document.querySelector('[data-collapsible-body-idx=\\'${idx}\\']');var a=e.currentTarget.querySelector('.collapsible-arrow');if(b.style.display==='none'){b.style.display='block';a.style.transform='rotate(90deg)';}else{b.style.display='none';a.style.transform='rotate(0deg)';}})(event)">
-            <span class="collapsible-arrow" style="display:inline-block;transition:transform 0.2s;transform:rotate(0deg);margin-right:8px;">&#9654;</span>
+        <div class="collapsible" data-collapsible-idx="${idx}" style="border:1px solid #eee;border-radius:8px;margin-bottom:12px;">
+          <div class="collapsible-header" style="display:flex;align-items:center;cursor:pointer;padding:6px;user-select:none;justify-content:space-between;font-weight:bold;" onclick="(function(e){var b=document.querySelector('[data-collapsible-body-idx=\\'${idx}\\']');var a=e.currentTarget.querySelector('.mui-icon');if(b.style.display==='none'){b.style.display='block';a.setAttribute('data-icon-name','KeyboardArrowDown');}else{b.style.display='none';a.setAttribute('data-icon-name','ChevronLeft');}})(event)">
             <span>${title}</span>
+            <span class="mui-icon" data-icon-name="ChevronLeft" style="display:inline-flex;align-items:center;"></span>
           </div>
-          <div class="collapsible-body" data-collapsible-body-idx="${idx}" style="display:none;">${inner.trim()}</div>
+          <div class="collapsible-body" data-collapsible-body-idx="${idx}" style="display:none;padding:6px;">${inner.trim()}</div>
         </div>
       `;
     }
@@ -54,7 +54,7 @@ export function postprocessContent(content: string): string {
         // Render icon as a span with a data attribute for later React replacement
         items.push(`<div class="list-item" style="display:flex;align-items:center;gap:8px;"><span class="mui-icon" data-icon-name="${icon}" style="display:inline-flex;align-items:center;"></span><span>${text}</span></div>`);
       }
-      return `<div class="dsl-list">${items.join('')}</div>`;
+      return `<div class="dsl-list" style="margin-bottom:12px;">${items.join('')}</div>`;
     }
   );
 

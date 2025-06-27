@@ -32,6 +32,23 @@ export default function ContentForm({
     await onSubmit(title, content);
   };
 
+  // Helper to insert text at the cursor position in the textarea
+  const insertAtCursor = (insertText: string) => {
+    const textarea = document.getElementById('content-textarea') as HTMLTextAreaElement;
+    if (!textarea) return;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const before = content.substring(0, start);
+    const after = content.substring(end);
+    setContent(before + insertText + after);
+    // Move cursor to inside the inserted tag if possible
+    setTimeout(() => {
+      textarea.focus();
+      const cursorPos = before.length + insertText.indexOf(']') + 1;
+      textarea.setSelectionRange(cursorPos, cursorPos);
+    }, 0);
+  };
+
   return (
     <Paper component="form" onSubmit={handleSubmit} sx={{ p: 3 }}>
       <Stack spacing={3}>
@@ -43,7 +60,18 @@ export default function ContentForm({
           required
           disabled={isLoading}
         />
+        {/* Toolbar */}
+        <Box display="flex" gap={1} mb={1}>
+          <Button size="small" variant="outlined" onClick={() => insertAtCursor('<b></b>')} disabled={isLoading}>B</Button>
+          <Button size="small" variant="outlined" onClick={() => insertAtCursor('<i></i>')} disabled={isLoading}>I</Button>
+          <Button size="small" variant="outlined" onClick={() => insertAtCursor('<u></u>')} disabled={isLoading}>U</Button>
+          <Button size="small" variant="outlined" onClick={() => insertAtCursor('<p></p>')} disabled={isLoading}>Paragraph</Button>
+          <Button size="small" variant="outlined" onClick={() => insertAtCursor('[blockquote][/blockquote]')} disabled={isLoading}>Blockquote</Button>
+          <Button size="small" variant="outlined" onClick={() => insertAtCursor('[list][list-item icon=""][/list-item][/list]')} disabled={isLoading}>List</Button>
+          <Button size="small" variant="outlined" onClick={() => insertAtCursor('[collapsible title=""][/collapsible]')} disabled={isLoading}>Collapsible</Button>
+        </Box>
         <TextField
+          id="content-textarea"
           label="Content"
           value={content}
           onChange={(e) => setContent(e.target.value)}
