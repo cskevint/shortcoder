@@ -39,5 +39,24 @@ export function postprocessContent(content: string): string {
     }
   );
 
+  // Handle [list]...[/list] and [list-item ...]...[/list-item]
+  content = content.replace(
+    /\[list\]([\s\S]*?)\[\/list\]/gi,
+    (_, listInner) => {
+      // Replace all [list-item ...]...[/list-item] inside this list
+      const items = [];
+      let itemMatch;
+      const itemRegex = /\[list-item([^\]]*)\]([\s\S]*?)\[\/list-item\]/gi;
+      while ((itemMatch = itemRegex.exec(listInner))) {
+        const attrs = parseAttributes(itemMatch[1]);
+        const icon = attrs.icon || '';
+        const text = itemMatch[2].trim();
+        // Render icon as a span with a data attribute for later React replacement
+        items.push(`<div class="list-item" style="display:flex;align-items:center;gap:8px;"><span class="mui-icon" data-icon-name="${icon}" style="display:inline-flex;align-items:center;"></span><span>${text}</span></div>`);
+      }
+      return `<div class="dsl-list">${items.join('')}</div>`;
+    }
+  );
+
   return content;
 }

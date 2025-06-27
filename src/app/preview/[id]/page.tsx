@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import { Content, getContentById } from '@/lib/supabase';
 import { postprocessContent } from '@/lib/contentPostprocess';
+import MUIIconHydrator from '@/components/MUIIconHydrator.client';
 
 export default function PreviewContentPage({ params }: { params: Promise<{ id: string }> }) {
   const { enqueueSnackbar } = useSnackbar();
@@ -49,12 +50,14 @@ export default function PreviewContentPage({ params }: { params: Promise<{ id: s
       <Typography variant="h4" component="h1" gutterBottom>
         {content.title}
       </Typography>
-      <Paper sx={{ p: 3, mt: 2 }}>
-        <Box
-          whiteSpace="pre-wrap"
-          dangerouslySetInnerHTML={{ __html: postprocessContent(content.content) }}
-        />
-      </Paper>
+      <MUIIconHydrator>
+        <Paper sx={{ p: 3, mt: 2 }}>
+          <Box
+            whiteSpace="pre-wrap"
+            dangerouslySetInnerHTML={{ __html: postprocessContent(content.content) }}
+          />
+        </Paper>
+      </MUIIconHydrator>
       <Box display="flex" justifyContent="flex-end" mt={2}>
         <button
           type="button"
