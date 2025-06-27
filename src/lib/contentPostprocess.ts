@@ -29,9 +29,12 @@ export function postprocessContent(content: string): string {
       const idx = collapsibleIndex++;
       return `
         <div class="collapsible" data-collapsible-idx="${idx}" style="border:1px solid #eee;border-radius:8px;margin-bottom:12px;">
-          <div class="collapsible-header" style="display:flex;align-items:center;cursor:pointer;padding:6px;user-select:none;justify-content:space-between;font-weight:bold;" onclick="(function(e){var b=document.querySelector('[data-collapsible-body-idx=\\'${idx}\\']');var a=e.currentTarget.querySelector('.mui-icon');if(b.style.display==='none'){b.style.display='block';a.setAttribute('data-icon-name','KeyboardArrowDown');}else{b.style.display='none';a.setAttribute('data-icon-name','ChevronLeft');}})(event)">
+          <div class="collapsible-header" data-collapsible-header-idx="${idx}" data-expanded="false" style="display:flex;align-items:center;cursor:pointer;padding:6px;user-select:none;justify-content:space-between;font-weight:bold;" onclick="(function(e){var b=document.querySelector('[data-collapsible-body-idx=\\'${idx}\\']');var h=e.currentTarget;var left=h.querySelector('.mui-icon-chevron');var down=h.querySelector('.mui-icon-down');if(b.style.display==='none'){b.style.display='block';h.setAttribute('data-expanded','true');left.style.display='none';down.style.display='inline-flex';}else{b.style.display='none';h.setAttribute('data-expanded','false');left.style.display='inline-flex';down.style.display='none';}})(event)">
             <span>${title}</span>
-            <span class="mui-icon" data-icon-name="ChevronLeft" style="display:inline-flex;align-items:center;"></span>
+            <span style="display:flex;align-items:center;gap:0;">
+              <span class="mui-icon mui-icon-chevron" data-icon-name="ChevronLeft" style="display:inline-flex;align-items:center;"></span>
+              <span class="mui-icon mui-icon-down" data-icon-name="KeyboardArrowDown" style="display:none;align-items:center;"></span>
+            </span>
           </div>
           <div class="collapsible-body" data-collapsible-body-idx="${idx}" style="display:none;padding:6px;">${inner.trim()}</div>
         </div>
