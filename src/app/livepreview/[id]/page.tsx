@@ -49,35 +49,58 @@ export default function LivePreviewPage({ params }: { params: Promise<{ id: stri
   };
 
   return (
-    <Box display="flex" width="100vw" minHeight="80vh" gap={2} position="fixed" left={0} top={0} right={0} bottom={0} sx={{ bgcolor: 'background.default', zIndex: 1, p: 2 }}>
-      {/* Left: Editor */}
-      <Box flex={1} minWidth={0}>
-        <Typography variant="h5" mb={2}>
-          Edit Content
-        </Typography>
-        {content && (
-          <ContentForm
-            initialData={content}
-            onSubmit={handleSave}
-            isLoading={isLoading}
-            showPreview={false}
-          />
-        )}
-      </Box>
-      <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
-      {/* Right: Live Preview */}
-      <Box flex={1} minWidth={0}>
-        <Typography variant="h5" mb={2}>
-          Live Preview
-        </Typography>
-        <MUIIconHydrator>
-          <Paper sx={{ p: 3, minHeight: 200 }}>
-            <Box
-              dangerouslySetInnerHTML={{ __html: postprocessContent(previewContent) }}
+    <>
+      <Box display="flex" width="100vw" minHeight="80vh" gap={2} position="fixed" left={0} top={0} right={0} bottom={0} sx={{ bgcolor: 'background.default', zIndex: 1, p: 2 }}>
+        {/* Left: Editor */}
+        <Box flex={1} minWidth={0}>
+          <Typography variant="h5" mb={2}>
+            Edit Content
+          </Typography>
+          {content && (
+            <ContentForm
+              initialData={content}
+              onSubmit={handleSave}
+              isLoading={isLoading}
+              showPreview={false}
             />
-          </Paper>
-        </MUIIconHydrator>
+          )}
+        </Box>
+        <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
+        {/* Right: Live Preview */}
+        <Box flex={1} minWidth={0}>
+          <Typography variant="h5" mb={2}>
+            Live Preview
+          </Typography>
+          <MUIIconHydrator>
+            <Paper sx={{ p: 3, minHeight: 200 }}>
+              <Box
+                dangerouslySetInnerHTML={{ __html: postprocessContent(previewContent) }}
+              />
+            </Paper>
+          </MUIIconHydrator>
+        </Box>
       </Box>
-    </Box>
+      {/* Static Pi character bottom left */}
+      <Box
+        component="a"
+        href="/"
+        sx={{
+          position: 'fixed',
+          right: 16,
+          bottom: 16,
+          zIndex: 2000,
+          cursor: 'pointer',
+          fontSize: 36,
+          color: 'primary.main',
+          fontWeight: 700,
+          textDecoration: 'none',
+          transition: 'transform 0.1s',
+          '&:hover': { transform: 'scale(1.15)', color: 'secondary.main' },
+        }}
+        aria-label="Go to Home"
+      >
+        π
+      </Box>
+    </>
   );
 }

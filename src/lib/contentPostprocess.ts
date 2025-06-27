@@ -12,9 +12,6 @@ function parseAttributes(tag: string): Record<string, string> {
   return attrs;
 }
 
-// Blockquote: [blockquote color="yellow"]...[/blockquote]
-const blockquoteRegex = /\[blockquote(?: color=\"(yellow|blue|red|green)\")?\]([\s\S]*?)\[\/blockquote\]/g;
-
 const pastelColors: Record<string, string> = {
   yellow: '#FFF9C4', // pastel yellow
   blue: '#BBDEFB',   // pastel blue
@@ -23,16 +20,12 @@ const pastelColors: Record<string, string> = {
 };
 
 export function postprocessContent(content: string): string {
-  // Handle [blockquote]...[/blockquote]
-  content = content.replace(
-    /\[blockquote\]([\s\S]*?)\[\/blockquote\]/gi,
-    (_, inner) => `<blockquote style="background:#fff9c4;border-radius:8px;padding:16px;margin-bottom:12px;">${inner.trim()}</blockquote>`
-  );
-
-  // Blockquote with color support
-  content = content.replace(blockquoteRegex, (match, color, content) => {
+  // Handle [blockquote]...[/blockquote] with attribute parsing
+  content = content.replace(/\[blockquote(?:([^\]]*))?\]([\s\S]*?)\[\/blockquote\]/g, (match, attrStr, inner) => {
+    const attrs = parseAttributes(attrStr || '');
+    const color = attrs.color || 'yellow'; // Default to yellow if no color specified
     const bgColor = pastelColors[color] || pastelColors['yellow'];
-    return `<blockquote style="background:${bgColor};padding:16px 24px;border-radius:8px;margin:16px 0;">${content}</blockquote>`;
+    return `<blockquote style="background:${bgColor};padding:16px 24px;border-radius:8px;margin:16px 0;">${inner.trim()}</blockquote>`;
   });
 
   // Handle [collapsible ...attributes]...[/collapsible]
