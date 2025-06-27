@@ -18,13 +18,14 @@ export default function PreviewContentPage({ params }: { params: Promise<{ id: s
 
   useEffect(() => {
     loadContent();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const loadContent = async () => {
     try {
       const data = await getContentById(id);
       setContent(data);
-    } catch (error) {
+    } catch {
       enqueueSnackbar('Failed to load content', { variant: 'error' });
       router.push('/');
     } finally {

@@ -16,13 +16,14 @@ export default function EditContentPage({ params }: { params: Promise<{ id: stri
 
   useEffect(() => {
     loadContent();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const loadContent = async () => {
     try {
       const data = await getContentById(id);
       setContent(data);
-    } catch (error) {
+    } catch {
       enqueueSnackbar('Failed to load content', { variant: 'error' });
       router.push('/');
     } finally {
@@ -35,7 +36,7 @@ export default function EditContentPage({ params }: { params: Promise<{ id: stri
     try {
       await updateContent(id, title, content);
       enqueueSnackbar('Content updated successfully', { variant: 'success' });
-    } catch (error) {
+    } catch {
       enqueueSnackbar('Failed to update content', { variant: 'error' });
     } finally {
       setIsLoading(false);

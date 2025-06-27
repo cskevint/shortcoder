@@ -18,7 +18,7 @@ export default function NewContentPage() {
       const newContent = await createContent(title, content);
       enqueueSnackbar('Content created successfully', { variant: 'success' });
       router.push(`/edit/${newContent.id}`);
-    } catch (error) {
+    } catch {
       enqueueSnackbar('Failed to create content', { variant: 'error' });
     } finally {
       setIsLoading(false);

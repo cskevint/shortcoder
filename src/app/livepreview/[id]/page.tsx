@@ -19,6 +19,7 @@ export default function LivePreviewPage({ params }: { params: Promise<{ id: stri
 
   useEffect(() => {
     loadContent();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const loadContent = async () => {
@@ -26,7 +27,7 @@ export default function LivePreviewPage({ params }: { params: Promise<{ id: stri
       const data = await getContentById(id);
       setContent(data);
       setPreviewContent(data.content);
-    } catch (error) {
+    } catch {
       enqueueSnackbar("Failed to load content", { variant: "error" });
       router.push("/");
     } finally {
@@ -40,15 +41,11 @@ export default function LivePreviewPage({ params }: { params: Promise<{ id: stri
       await updateContent(id, title, contentValue);
       enqueueSnackbar("Content updated successfully", { variant: "success" });
       setPreviewContent(contentValue);
-    } catch (error) {
+    } catch {
       enqueueSnackbar("Failed to update content", { variant: "error" });
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handlePreview = (title: string, contentValue: string) => {
-    setPreviewContent(contentValue);
   };
 
   return (
