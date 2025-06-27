@@ -66,7 +66,7 @@ export default function ContentForm({
           <Button size="small" variant="outlined" onClick={() => insertAtCursor('<i></i>')} disabled={isLoading}>I</Button>
           <Button size="small" variant="outlined" onClick={() => insertAtCursor('<u></u>')} disabled={isLoading}>U</Button>
           <Button size="small" variant="outlined" onClick={() => insertAtCursor('<p></p>')} disabled={isLoading}>Paragraph</Button>
-          <Button size="small" variant="outlined" onClick={() => insertAtCursor('[blockquote][/blockquote]')} disabled={isLoading}>Blockquote</Button>
+          <Button size="small" variant="outlined" onClick={() => insertAtCursor('[blockquote color="yellow"][/blockquote]')} disabled={isLoading}>Blockquote</Button>
           <Button size="small" variant="outlined" onClick={() => insertAtCursor('[list][list-item icon=""][/list-item][/list]')} disabled={isLoading}>List</Button>
           <Button size="small" variant="outlined" onClick={() => insertAtCursor('[collapsible title=""][/collapsible]')} disabled={isLoading}>Collapsible</Button>
         </Box>
