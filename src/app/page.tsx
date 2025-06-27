@@ -86,11 +86,8 @@ export default function HomePage() {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small" onClick={() => router.push(`/edit/${content.id}`)}>
-                  Edit
-                </Button>
-                <Button size="small" onClick={() => router.push(`/preview/${content.id}`)}>
-                  Preview
+                <Button size="small" onClick={() => router.push(`/livepreview/${content.id}`)}>
+                  Live Preview
                 </Button>
               </CardActions>
             </Card>
